@@ -68,6 +68,8 @@ Proyecto-Java-EDD/
 ├── pom.xml         ← Configuración de Maven
 ├── README.md       ← Este archivo
 
+```
+
 ## 🌿 Estrategia de ramas Git
 
 Este proyecto sigue una estrategia aplicando el uso de ramas para organizar el desarrollo, evitar conflictos y facilitar la integración de funcionalidades.
