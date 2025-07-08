@@ -72,45 +72,66 @@ Proyecto-Java-EDD/
 
 ## 🌿 Estrategia de ramas Git
 
-Este proyecto sigue una estrategia aplicando el uso de ramas para organizar el desarrollo, evitar conflictos y facilitar la integración de funcionalidades.
+Este proyecto utiliza una estrategia de ramas profesional para facilitar el trabajo modular y evitar conflictos.
 
 ### 🔀 Ramas principales
 
 - **`main`**  
-  Rama estable. Solo contiene versiones funcionales, probadas y listas para entrega o presentación.
+  Rama estable. Contiene versiones funcionales listas para entrega.
 
 - **`dev`**  
-  Rama de desarrollo general. Aquí se integran las funcionalidades completadas y testeadas de las distintas ramas `feature/*` antes de ser fusionadas en `main`.
+  Rama de desarrollo general. Aquí se integran las funcionalidades probadas de las ramas `feature/*`.
 
-### 🌱 Ramas por funcionalidad (`feature/*`)
+### 🌱 Ramas por funcionalidad (`features-*`)
 
-Cada funcionalidad o clase principal se desarrolla en su propia rama `feature`, incluyendo su implementación, Javadoc y pruebas unitarias.
+Cada funcionalidad principal del proyecto se desarrolla en su propia rama:
 
-- `feature/cliente`  
+- **`features-cliente`**
   - Clase `Cliente.java`
-  - `ClienteTest.java`
-  - Javadoc para Cliente
+  - Pruebas unitarias en `ClienteTest.java`
+  - Javadoc generado para Cliente
 
-- `feature/cafe`  
+- **`features-cafe`**
   - Clase `Cafe.java`
-  - `CafeTest.java`
-  - Javadoc para Cafe
+  - Pruebas unitarias en `CafeTest.java`
+  - Javadoc generado para Cafe
 
-- `feature/venta`  
+- **`features-venta`**
   - Clase `Venta.java`
-  - `VentaTest.java`
-  - Javadoc para Venta
+  - Pruebas unitarias en `VentaTest.java`
+  - Javadoc generado para Venta
 
-- `feature/menu`  
-  - Clase principal con el menú interactivo
-  - Gestión de navegación y llamadas a otras funcionalidades
+- **`features-menu`**
+  - Clase principal que contiene el menú interactivo
+  - Coordinación de navegación entre funcionalidades
 
 ### 🔁 Flujo de trabajo
 
-1. Se desarrolla una funcionalidad en su rama `feature/*`
-2. Cuando está completada y probada, se fusiona con `dev`
-3. Cuando `dev` está estable, se fusiona con `main`
+1. Se desarrolla una funcionalidad en su rama `features-*`.
+2. Una vez completada y probada, se fusiona con `dev`.
+3. Cuando `dev` está estable, se fusiona con `main`.
 
-Este flujo permite mantener un desarrollo limpio, modular y controlado, cumpliendo con las buenas prácticas de desarrollo colaborativo.
+---
 
+## 📚 Documentación técnica (Javadoc)
 
+Este proyecto incluye documentación técnica generada con Javadoc.
+
+### 📄 Cómo acceder
+
+- Abre el archivo:  
+  `docs/index.html`
+
+- O accede directamente a la clase `Cliente`:  
+  `docs/com/tiendacafe/Cliente.html`
+
+> Si abres `index.html`, podrás navegar por toda la documentación del proyecto.
+
+### 🛠 Cómo regenerar la documentación (opcional)
+
+Desde IntelliJ IDEA:
+
+1. Ve al menú `Tools` → `Generate JavaDoc...`
+2. Selecciona `Whole project`
+3. Define el directorio de salida como `./docs`
+4. Pulsa `Generate`
