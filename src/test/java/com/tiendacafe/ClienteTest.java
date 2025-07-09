@@ -3,6 +3,12 @@ package com.tiendacafe;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Clase de prueba unitaria para la clase {@link Cliente}
+ * Verifica que los métodos get, set y toString funcionan correctamente.
+ *
+ */
+
 public class ClienteTest {
 
     private Cliente cliente;
