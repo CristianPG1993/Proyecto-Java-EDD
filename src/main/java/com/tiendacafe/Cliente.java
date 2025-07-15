@@ -43,6 +43,7 @@ public class Cliente {
 
     /**
      * Devuelve el DNI del cliente.
+     *
      * @return DNI del cliente
      */
     public String getDni() {
