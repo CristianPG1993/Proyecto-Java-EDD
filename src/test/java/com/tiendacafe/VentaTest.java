@@ -29,9 +29,9 @@ public class VentaTest {
                 "612345678", "laura@email.com");
 
         cafe1 = new Cafe("Don Pedro", "Caturra",
-                "Guatemala", 10.50);
+                "Guatemala", 10.50, 4);
         cafe2 = new Cafe("Monte Azul", "Bourbon",
-                "El Salvador", 12);
+                "El Salvador", 12, 5);
 
         listaCafes = new ArrayList<>();
         listaCafes.add(cafe1);
@@ -81,7 +81,7 @@ public class VentaTest {
     public void testAddCafe(){
 
         Cafe nuevoCafe = new Cafe("Geisha", "tostado",
-                "Japón", 15);
+                "Japón", 15, 6);
 
         venta.addCafe(nuevoCafe);
 
