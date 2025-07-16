@@ -15,6 +15,7 @@ public class Cafe {
     private String variedad;
     private String origen;
     private double precio;
+    private int stock;
 
     //Constructor
 
@@ -27,12 +28,13 @@ public class Cafe {
      * @param precioCafe Precio bolsa 250 grs de café
      */
 
-    public Cafe(String nombreCafe, String variedadCafe, String origenCafe, double precioCafe){
+    public Cafe(String nombreCafe, String variedadCafe, String origenCafe, double precioCafe, int stock){
 
         this.nombre = nombreCafe;
         this.variedad = variedadCafe;
         this.origen = origenCafe;
         this.precio = precioCafe;
+        this.stock = stock;
 
     }
 
@@ -66,6 +68,14 @@ public class Cafe {
 
     public double getPrecio() {return precio;}
 
+    /**
+     * Devuelve el stock de café disponible
+     * @return Unidades de bolsas de café
+     */
+    public int getStock() {
+        return stock;
+    }
+
     //Setters
 
     /**
@@ -75,6 +85,14 @@ public class Cafe {
 
     public void setPrecio(double precioNuevo) {
         this.precio = precioNuevo;
+    }
+
+    /**
+     * Establece un nuevo valor al stock del café
+     * @param stock Nuevo stock
+     */
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     /**
@@ -92,6 +110,7 @@ public class Cafe {
                 ", variedad='" + variedad + '\'' +
                 ", origen='" + origen + '\'' +
                 ", precio='" + precio + '\'' +
+                ", stock=" + stock +
                 '}';
     }
 }
