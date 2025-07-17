@@ -24,14 +24,14 @@ public class VentaTest {
 
 
     @BeforeEach
-    void prepararDatos(){
+    void setUp(){
         cliente = new Cliente("Laura", "09034502V",
                 "612345678", "laura@email.com");
 
         cafe1 = new Cafe("Don Pedro", "Caturra",
-                "Guatemala", 10.50, 4);
+                "Guatemala", 10.50, 3);
         cafe2 = new Cafe("Monte Azul", "Bourbon",
-                "El Salvador", 12, 5);
+                "El Salvador", 12, 4);
 
         listaCafes = new ArrayList<>();
         listaCafes.add(cafe1);
@@ -81,7 +81,7 @@ public class VentaTest {
     public void testAddCafe(){
 
         Cafe nuevoCafe = new Cafe("Geisha", "tostado",
-                "Japón", 15, 6);
+                "Japón", 15, 4);
 
         venta.addCafe(nuevoCafe);
 

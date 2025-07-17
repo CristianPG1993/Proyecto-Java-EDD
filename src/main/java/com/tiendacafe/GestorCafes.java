@@ -34,7 +34,7 @@ public class GestorCafes {
      */
 
 
-    public void darAltaCafe(){
+    public static void darAltaCafe(){
         Scanner scanner = new Scanner(System.in);
         scanner.useLocale(Locale.US);
 
@@ -53,7 +53,7 @@ public class GestorCafes {
         double precio = scanner.nextDouble();
         scanner.nextLine();
 
-        System.out.println("\n¿Cuántas bolsas de café quieres añadir al stock?");
+        System.out.println("\n¿Cuantas bolsas de café deseas añadir?");
         int stock = scanner.nextInt();
         scanner.nextLine();
 
@@ -79,7 +79,7 @@ public class GestorCafes {
      * La lista original no se modifica; se crea una copia temporal para mostrar los resultados.
      */
 
-    public void listarCafes(){
+    public static void listarCafes(){
 
         Scanner scanner = new Scanner(System.in);
         int opcion = 0;
@@ -133,7 +133,7 @@ public class GestorCafes {
      * Utiliza la entrada por consola para capturar la variedad a buscar.
      */
 
-    public void buscarCafePorVariedad(){
+    public static void buscarCafePorVariedad(){
 
         Scanner scanner = new Scanner(System.in);
 

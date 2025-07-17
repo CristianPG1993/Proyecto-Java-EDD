@@ -104,13 +104,12 @@ public class Cafe {
 
 
     @Override
-    public String toString(){
-        return "Cafe{" +
-                "nombre='" + nombre + '\'' +
-                ", variedad='" + variedad + '\'' +
-                ", origen='" + origen + '\'' +
-                ", precio='" + precio + '\'' +
-                ", stock=" + stock +
-                '}';
+    public String toString() {
+        return "Nombre: " + nombre +
+                " | Variedad: " + variedad +
+                " | Origen: " + origen +
+                " | Precio: " + precio + " €" +
+                " | Stock: " + stock + " uds";
     }
+
 }
