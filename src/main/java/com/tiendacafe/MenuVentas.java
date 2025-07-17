@@ -1,5 +1,6 @@
 package com.tiendacafe;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -64,5 +65,38 @@ public class MenuVentas {
             }
 
         }while (opcion != 4);
+
+
+    }
+
+    public static void mostrarRealizarVenta(GestorVentas gestorVentas) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        int opcion;
+
+        do {
+            System.out.println("\n=== MENÚ DE VENTA ===");
+            System.out.println("1. Relizar venta");
+            System.out.println("2. Volver al menú principal");
+            System.out.println("Elige una opción (1  ó 2):");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (opcion) {
+                case 1:
+                    System.out.println("Introduce el dni:");
+                    String dniCliente = scanner.nextLine();
+                    ArrayList<String> cafesSeleccionados = new ArrayList<>();
+                    gestorVentas.crearVenta(dniCliente, cafesSeleccionados);
+                    break;
+                case 2:
+                    System.out.println("Volviendo al menú principal...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. ");
+            }
+
+        } while (opcion != 2);
     }
 }

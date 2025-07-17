@@ -66,7 +66,7 @@ public class GestorVentas {
      * por nombre o por variedad. Por cada café seleccionado, se solicita la cantidad deseada.
      *
      * Si hay stock suficiente, se añaden las unidades solicitadas a la venta.
-     * Si el stock es insuficiente pero mayor que cero, se añaden únicamente las unidades disponibles.
+     * Si el stock es insuficiente, pero mayor que cero, se añaden únicamente las unidades disponibles.
      * Si el stock es cero, el producto no se añade y se muestra un aviso.
      *
      * La venta se registra con la fecha actual y se almacena en la lista de ventas.
