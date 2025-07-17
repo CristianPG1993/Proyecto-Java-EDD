@@ -104,7 +104,8 @@ public class Venta {
         StringBuilder cafesTexto = new StringBuilder();
 
         for (Cafe cafe: lineasDeVenta){
-            cafesTexto.append(" - ").append(cafe.getNombre()).append(" - ").append(cafe.getPrecio()).append(" €\n");
+            cafesTexto.append(" - ").append(cafe.getNombre()).
+                    append(" - ").append(cafe.getPrecio()).append(" €\n");
         }
         return "Venta realizada a: " + cliente.getNombre() + "\n"
                 + "Fecha: " + fecha + "\n"

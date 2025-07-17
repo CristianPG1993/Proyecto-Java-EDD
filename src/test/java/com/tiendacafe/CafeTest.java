@@ -25,7 +25,7 @@ public class CafeTest {
     @BeforeEach
     void pruebaCafe(){
         cafe = new Cafe("Café Don Pedro",
-                "Caturra", "Guatemala",10.50);
+                "Caturra", "Guatemala",10.50, 3);
 
     }
 
@@ -73,6 +73,12 @@ public class CafeTest {
 
     }
 
+    @Test
+    public void testGetStock(){
+
+        assertEquals(3, cafe.getStock());
+    }
+
     /**
      * Verifica que setPrecio() funciona correctamente y actualiza el precio.
      */
@@ -84,6 +90,13 @@ public class CafeTest {
 
         assertEquals(8.50, cafe.getPrecio());
 
+    }
+
+    @Test
+    public void testSetStock(){
+        cafe.setStock(6);
+
+        assertEquals(6, cafe.getStock());
     }
 
     /**

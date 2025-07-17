@@ -53,6 +53,10 @@ public class GestorCafes {
         double precio = scanner.nextDouble();
         scanner.nextLine();
 
+        System.out.println("\n¿Cuantas bolsas de café deseas añadir?");
+        int stock = scanner.nextInt();
+        scanner.nextLine();
+
 
         for(Cafe cafe : listaCafes){
             if(cafe.getNombre().equalsIgnoreCase(nombre) &&
@@ -63,7 +67,7 @@ public class GestorCafes {
             }
         }
 
-        Cafe nuevoCafe = new Cafe(nombre, variedad, origen, precio);
+        Cafe nuevoCafe = new Cafe(nombre, variedad, origen, precio,stock);
         listaCafes.add(nuevoCafe);
         System.out.println("Café añadido correctamente.");
 

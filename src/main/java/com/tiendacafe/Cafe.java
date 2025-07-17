@@ -15,6 +15,7 @@ public class Cafe {
     private String variedad;
     private String origen;
     private double precio;
+    private int stock;
 
     //Constructor
 
@@ -27,12 +28,13 @@ public class Cafe {
      * @param precioCafe Precio bolsa 250 grs de café
      */
 
-    public Cafe(String nombreCafe, String variedadCafe, String origenCafe, double precioCafe){
+    public Cafe(String nombreCafe, String variedadCafe, String origenCafe, double precioCafe, int stock){
 
         this.nombre = nombreCafe;
         this.variedad = variedadCafe;
         this.origen = origenCafe;
         this.precio = precioCafe;
+        this.stock = stock;
 
     }
 
@@ -66,6 +68,14 @@ public class Cafe {
 
     public double getPrecio() {return precio;}
 
+    /**
+     * Devuelve el stock de café disponible
+     * @return Unidades de bolsas de café
+     */
+    public int getStock() {
+        return stock;
+    }
+
     //Setters
 
     /**
@@ -78,6 +88,14 @@ public class Cafe {
     }
 
     /**
+     * Establece un nuevo valor al stock del café
+     * @param stock Nuevo stock
+     */
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    /**
      * Devuelve una representación en forma de cadena del objeto Cafe.
      * Incluye el nombre, la variedad, el origen y el precio del café.
      *
@@ -86,12 +104,12 @@ public class Cafe {
 
 
     @Override
-    public String toString(){
-        return "Cafe{" +
-                "nombre='" + nombre + '\'' +
-                ", variedad='" + variedad + '\'' +
-                ", origen='" + origen + '\'' +
-                ", precio='" + precio + '\'' +
-                '}';
+    public String toString() {
+        return "Nombre: " + nombre +
+                " | Variedad: " + variedad +
+                " | Origen: " + origen +
+                " | Precio: " + precio + " €" +
+                " | Stock: " + stock + " uds";
     }
+
 }

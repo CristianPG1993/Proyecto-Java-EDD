@@ -2,6 +2,7 @@ package com.tiendacafe;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,6 +22,16 @@ public class GestorVentas {
     private ArrayList<Cafe> listaCafes;
     private ArrayList<Cliente> listaClientes;
 
+    /**
+     * Devuelve la lista de ventas registradas.
+     *
+     * @return Lista de ventas.
+     */
+
+    public ArrayList<Venta> getListaVentas() {
+        return listaVentas;
+    }
+
     public GestorVentas(ArrayList<Cliente> listaClientes, ArrayList<Cafe> listaCafes){
 
         this.listaClientes = listaClientes;
@@ -29,22 +40,47 @@ public class GestorVentas {
     }
 
     /**
-     * Crea una nueva venta para un cliente existente, permitiendo seleccionar cafés del catálogo
-     * por nombre o variedad. Controla el stock de cada café y guarda la venta con la fecha actual.
+     * Devuelve una lista de ventas asociadas a un cliente específico según su DNI.
      *
-     * Si el cliente no existe, la operación se cancela. El usuario puede añadir múltiples cafés
-     * escribiendo su nombre o variedad uno por uno hasta finalizar.
+     * Recorre todas las ventas registradas y selecciona aquellas que pertenezcan
+     * al cliente con el DNI proporcionado (ignorando mayúsculas/minúsculas).
+     *
+     * @param dni DNI del cliente del cual se quieren obtener las ventas.
+     * @return Lista de objetos {@link Venta} correspondientes al cliente. Si no hay ventas, la lista estará vacía.
+     */
+    public List<Venta> getVentasPorCliente(String dni) {
+        List<Venta> ventasCliente = new ArrayList<>();
+        for (Venta venta : listaVentas) {
+            if (venta.getCliente().getDni().equalsIgnoreCase(dni)) {
+                ventasCliente.add(venta);
+            }
+        }
+        return ventasCliente;
+    }
+
+
+    /**
+     * Crea una nueva venta para un cliente existente.
+     *
+     * Muestra el catálogo de cafés disponibles y permite al usuario seleccionar productos
+     * por nombre o por variedad. Por cada café seleccionado, se solicita la cantidad deseada.
+     *
+     * Si hay stock suficiente, se añaden las unidades solicitadas a la venta.
+     * Si el stock es insuficiente pero mayor que cero, se añaden únicamente las unidades disponibles.
+     * Si el stock es cero, el producto no se añade y se muestra un aviso.
+     *
+     * La venta se registra con la fecha actual y se almacena en la lista de ventas.
+     * Si el cliente no está registrado, se cancela la operación.
      *
      * @param dniCliente DNI del cliente que realiza la compra.
-     * @param nombresCafes Lista de nombres o variedades introducidos por el usuario (no se usa directamente si se gestiona por consola).
+     * @param nombresCafes Lista de nombres o variedades (no se usa directamente si se gestiona por consola).
      */
-
     public void crearVenta(String dniCliente, ArrayList<String> nombresCafes){
 
         Cliente cliente = buscarClientePorDni(dniCliente);
 
         if(cliente == null){
-            System.out.println("\nEl cliente con DNI " + dniCliente + "no existe.");
+            System.out.println("\nEl cliente con DNI " + dniCliente + " no existe.");
             return;
 
         }
@@ -65,12 +101,17 @@ public class GestorVentas {
 
         ArrayList<Cafe> cafesSeleccionados = new ArrayList<>();
 
-        String entrada;
+
+
         do {
             System.out.print("\nIntroduce el nombre o variedad del café (o escribe 'fin' para terminar): ");
-            entrada = scanner.nextLine().trim();
+            String entrada = scanner.nextLine().trim();
 
             if (entrada.equalsIgnoreCase("fin")) break;
+
+            System.out.println("\n¿Cuántas unidades quieres comprar de ese café?");
+            int cantidadSolicitada = scanner.nextInt();
+            scanner.nextLine();
 
             Cafe cafe = null;
 
@@ -81,12 +122,18 @@ public class GestorVentas {
             }
 
             if (cafe != null) {
-                if (cafe.getStock() > 0) {
-                    cafesSeleccionados.add(cafe);
-                    cafe.setStock(cafe.getStock() - 1);
-                    System.out.println("Añadido: " + cafe.getNombre());
-                } else {
-                    System.out.println("Sin stock: " + cafe.getNombre());
+                if (cafe.getStock() == 0) {
+                    System.out.println("No hay stock disponible de " + cafe.getNombre());
+                }else {
+                    int cantidadReal = Math.min(cantidadSolicitada, cafe.getStock());
+
+                    for (int i = 0; i < cantidadReal; i++) {
+                        cafesSeleccionados.add(cafe);
+
+                    }
+
+                    cafe.setStock(cafe.getStock() - cantidadReal);
+                    System.out.println("Añadidas " + cantidadReal + " unidades de " + cafe.getNombre());
                 }
             } else {
                 System.out.println("Café no encontrado.");
@@ -130,76 +177,69 @@ public class GestorVentas {
     }
 
     /**
-     * Solicita el DNI de un cliente por consola y muestra todas las ventas
-     * registradas asociadas a ese cliente.
+     * Solicita el DNI de un cliente por consola y muestra todas sus ventas registradas.
      *
-     * Recorre la lista de ventas y compara el DNI ingresado con el DNI de cada cliente.
-     * Muestra los datos completos de cada venta, incluyendo fecha, cafés y total.
-     *
-     * Si no se encuentran ventas asociadas, informa al usuario.
+     * Utiliza el mé_todo {@link #getVentasPorCliente(String)} para obtener las ventas.
+     * Si existen ventas, se muestran por consola. Si no hay ninguna, se informa al usuario.
      */
-
-    public void mostrarVentasPorCliente(){
-
+    public void mostrarVentasPorCliente() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("\nIntroduce el DNI del cliente: ");
         String dni = scanner.nextLine().trim().toUpperCase();
 
-        boolean ventasEncontradas = false;
+        List<Venta> ventasDelCliente = getVentasPorCliente(dni);
 
         System.out.println("\n=== VENTAS DEL CLIENTE CON DNI: " + dni + " ===");
 
-        for (Venta venta:listaVentas){
-            if(venta.getCliente().getDni().equalsIgnoreCase(dni)){
-                System.out.println(venta);
-                System.out.println("----------------------------------------");
-                ventasEncontradas = true;
-            }
-        }
-
-        if(!ventasEncontradas){
+        if (ventasDelCliente.isEmpty()) {
             System.out.println("No hay ventas registradas para este cliente.");
+            return;
         }
 
+        for (Venta venta : ventasDelCliente) {
+            System.out.println(venta);
+            System.out.println("----------------------------------------");
+        }
     }
 
+
     /**
-     * Solicita el DNI de un cliente por consola y muestra el importe total
-     * de cada una de sus ventas registradas.
+     * Muestra por consola los importes de todas las ventas realizadas por un cliente específico.
      *
-     * Para cada venta asociada al cliente, se muestra la fecha y el total calculado
-     * sumando los precios de los cafés vendidos.
+     * Recorre la lista de ventas y filtra aquellas asociadas al DNI proporcionado.
+     * Para cada venta encontrada, se imprime:
+     * - El número de la venta
+     * - La fecha en la que se realizó
+     * - El total de la venta
      *
-     * Si no se encuentran ventas para el cliente, se informa por consola.
+     * Si no se encuentran ventas registradas para ese cliente, se muestra un mensaje informativo.
+     *
+     * @param dni DNI del cliente cuyas ventas se desean consultar.
      */
-    public void mostrarImportesPorCliente(){
+    public void mostrarImportesPorCliente(String dni) {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Introduce el DNI para mostrar el importe de las ventas:");
-        String dni = scanner.nextLine().trim().toUpperCase();
-
+        dni = dni.trim().toUpperCase();
         boolean ventasEncontradas = false;
         int contador = 1;
 
         System.out.println("\n=== IMPORTES DE VENTAS PARA EL CLIENTE CON DNI: " + dni + " ===");
 
-
-        for (Venta venta:listaVentas){
-
-            if(venta.getCliente().getDni().equalsIgnoreCase(dni)){
+        for (Venta venta : listaVentas) {
+            if (venta.getCliente().getDni().equalsIgnoreCase(dni)) {
                 System.out.println("Venta " + contador + ":");
-                System.out.println("Fecha " + venta.getFecha());
+                System.out.println("Fecha: " + venta.getFecha());
                 System.out.println("Total: " + venta.calcularTotal() + " €");
                 System.out.println("------------------------------------------");
                 ventasEncontradas = true;
                 contador++;
             }
-
         }
-        if(!ventasEncontradas){
+
+        if (!ventasEncontradas) {
             System.out.println("No hay ventas registradas para este cliente.");
         }
     }
+
 
     //Mé_todos privados
 

@@ -52,7 +52,9 @@ public class MenuVentas {
                     gestorVentas.mostrarVentasPorCliente();
                     break;
                 case 3:
-                    gestorVentas.mostrarImportesPorCliente();
+                    System.out.println("Introduce el DNI del cliente: ");
+                    String dni = scanner.nextLine().trim().toUpperCase();
+                    gestorVentas.mostrarImportesPorCliente(dni);
                     break;
                 case 4:
                     System.out.println("Volviendo al menú principal...");

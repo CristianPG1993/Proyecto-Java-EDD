@@ -55,7 +55,7 @@ public class GestorCafesTest {
     public void testEsCafeDuplicado(){
 
         GestorCafes.getListaCafes().add(new Cafe("Colombia",
-                "Arábica","Colombia", 9.5));
+                "Arábica","Colombia", 9.5, 4));
 
         String entradaSimulada = "Colombia\nArábica\nColombia\n9.5\n";
         System.setIn(new ByteArrayInputStream(entradaSimulada.getBytes()));
@@ -81,10 +81,10 @@ public class GestorCafesTest {
     public void testListarCafes(){
 
         GestorCafes.getListaCafes().add(new Cafe("Colombia Supremo",
-                "Arábica", "Colombia", 9.5));
+                "Arábica", "Colombia", 9.5, 5));
 
         GestorCafes.getListaCafes().add(new Cafe("Santos",
-                "Robusta", "Brasil", 8.0));
+                "Robusta", "Brasil", 8.0, 5));
 
         ByteArrayOutputStream salidaCapturada = new ByteArrayOutputStream();
         System.setOut(new PrintStream(salidaCapturada));
@@ -107,11 +107,11 @@ public class GestorCafesTest {
     public void testBuscarCafePorVariedad(){
 
         GestorCafes.getListaCafes().add(new Cafe("Nicaragua Gourmet",
-                "Arábica", "Nicaragua", 9.0));
+                "Arábica", "Nicaragua", 9.0, 3));
         GestorCafes.getListaCafes().add(new Cafe("Colombia Supremo",
-                "Arábica", "Colombia", 9.5));
+                "Arábica", "Colombia", 9.5, 4));
         GestorCafes.getListaCafes().add(new Cafe("Vietnam Robusto",
-                "Robusta", "Vietnam", 8.2));
+                "Robusta", "Vietnam", 8.2, 3));
 
         String entradaSimulada = "Arábica\n";
         System.setIn(new ByteArrayInputStream(entradaSimulada.getBytes()));

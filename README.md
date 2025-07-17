@@ -35,8 +35,8 @@ A continuación se detallan las funcionalidades obligatorias desarrolladas en es
 
 ### 💰 Gestión de ventas
 - Creación de nuevas ventas:
-    - Selección de cliente existente
-    - Añadir uno o más cafés del catálogo
+  - Selección de cliente existente
+  - Añadir uno o más cafés del catálogo
 - Visualización de todas las ventas realizadas
 - Visualización de ventas por cliente
 - Cálculo y muestra del importe total de cada venta
