@@ -66,11 +66,11 @@ public class GestorVentas {
      * por nombre o por variedad. Por cada café seleccionado, se solicita la cantidad deseada.
      *
      * Si hay stock suficiente, se añaden las unidades solicitadas a la venta.
-     * Si el stock es insuficiente, pero mayor que cero, se añaden únicamente las unidades disponibles.
-     * Si el stock es cero, el producto no se añade y se muestra un aviso.
+     * Si el stock es insuficiente, se muestra un aviso y se solicita de nuevo.
+     * Si el stock es cero, el producto no se añade.
      *
      * La venta se registra con la fecha actual y se almacena en la lista de ventas.
-     * Si el cliente no está registrado, se cancela la operación.
+     * Si el cliente no está registrado, o no se seleccionan cafés, se cancela la operación.
      *
      * @param dniCliente DNI del cliente que realiza la compra.
      * @param nombresCafes Lista de nombres o variedades (no se usa directamente si se gestiona por consola).
@@ -92,54 +92,164 @@ public class GestorVentas {
             System.out.println(cafe);
         }
 
-        System.out.println("\n¿Cómo quieres seleccionar los cafés?");
-        System.out.println("\n1. Por nombre");
-        System.out.println("\n2. Por variedad");
-        System.out.println("\nOpción: ");
-        int opcion = scanner.nextInt();
-        scanner.nextLine();
+        int opcionSeleccion = 0;
+        while (true) {
+
+            System.out.println("\n¿Cómo quieres seleccionar los cafés?");
+            System.out.println("\n1. Por nombre");
+            System.out.println("\n2. Por variedad");
+            System.out.println("\nOpción: ");
+            String entrada = scanner.nextLine().trim();
+            try {
+                opcionSeleccion = Integer.parseInt(entrada);
+                if(opcionSeleccion == 1 || opcionSeleccion == 2){
+                    break;
+                } else {
+                    System.out.println("Opción no válida. Elige 1 o 2.");
+                }
+            } catch (NumberFormatException e){
+                System.out.println("Entrada no válida. Debes escribir un número (1 o 2).");
+            }
+
+        }
 
         ArrayList<Cafe> cafesSeleccionados = new ArrayList<>();
 
+        while (true) {
+            if (opcionSeleccion == 1) {
 
+                System.out.println("Introduce el nombre del café (o escribe 'fin' para terminar): ");
+                String nombre = scanner.nextLine().trim();
+                if (nombre.equalsIgnoreCase("fin")) break;
 
-        do {
-            System.out.print("\nIntroduce el nombre o variedad del café (o escribe 'fin' para terminar): ");
-            String entrada = scanner.nextLine().trim();
+                Cafe cafe = buscarCafePorNombre(nombre);
+                if (cafe == null){
+                    System.out.println("Café no encontrado.");
+                    continue;
+                }
 
-            if (entrada.equalsIgnoreCase("fin")) break;
+                int cantidad = 0;
 
-            System.out.println("\n¿Cuántas unidades quieres comprar de ese café?");
-            int cantidadSolicitada = scanner.nextInt();
-            scanner.nextLine();
+                while (true) {
 
-            Cafe cafe = null;
+                    System.out.println("¿Cuántas unidades quieres comprar de " + nombre + "?: ");
+                    String entradaCantidad = scanner.nextLine().trim();
+                    try {
 
-            if (opcion == 1) {
-                cafe = buscarCafePorNombre(entrada);
-            } else if (opcion == 2) {
-                cafe = buscarCafePorVariedad(entrada);
-            }
+                        cantidad = Integer.parseInt(entradaCantidad);
+                        if (cantidad > 0){
+                            break;
+                        } else {
 
-            if (cafe != null) {
-                if (cafe.getStock() == 0) {
-                    System.out.println("No hay stock disponible de " + cafe.getNombre());
-                }else {
-                    int cantidadReal = Math.min(cantidadSolicitada, cafe.getStock());
+                            System.out.println("La cantidad debe de ser mayor que 0.");
+                        }
+                    } catch (NumberFormatException e){
 
-                    for (int i = 0; i < cantidadReal; i++) {
+                        System.out.println("Opción no válida. Debes introducir un número entero." );
+                    }
+                }
+
+                if (cafe.getStock() >= cantidad) {
+
+                    for (int i = 0; i < cantidad; i++){
+
                         cafesSeleccionados.add(cafe);
-
                     }
 
-                    cafe.setStock(cafe.getStock() - cantidadReal);
-                    System.out.println("Añadidas " + cantidadReal + " unidades de " + cafe.getNombre());
+                    cafe.setStock(cafe.getStock() - cantidad);
+                    System.out.println("Añadidas " + cantidad + " unidades de " + cafe.getNombre());
+                    System.out.println("Stock restante: " + cafe.getStock() + " uds.");
+                } else if (cafe.getStock() > 0) {
+
+                    System.out.println("Solo hay " + cafe.getStock() + " unidades disponibles de " + cafe.getNombre() + ".");
+                    System.out.println("No se ha añadido nada. Intente de nuevo con una cantidad válida.");
+
+                }else {
+
+                    System.out.println("El café " + cafe.getNombre() + "está agotado.");
                 }
-            } else {
-                System.out.println("Café no encontrado.");
+
+            } else if (opcionSeleccion == 2) {
+
+                System.out.println("\nIntroduce la variedad (o escribe 'fin' para terminar): ");
+                String variedad = scanner.nextLine().trim();
+                if (variedad.equalsIgnoreCase("fin")) break;
+
+                ArrayList<Cafe> filtrados = buscarCafePorVariedad(variedad);
+                if (filtrados.isEmpty()){
+                    System.out.println("No se han encontrado cafés con esa variedad.");
+                    continue;
+                }
+
+                System.out.println("\nCafés disponibles de la variedad '" + variedad + "': ");
+                for (Cafe cafe: filtrados){
+                    System.out.println("- " + cafe.getNombre());
+
+                }
+
+                System.out.println("\nIntroduce el nombre exacto del café que quieres comprar: ");
+                String nombreCafe = scanner.nextLine().trim();
+
+                Cafe cafe = buscarCafePorNombre(nombreCafe);
+                if (cafe == null){
+                    System.out.println("Café no encontrado.");
+                    continue;
+                }
+
+                int cantidad  = 0;
+                while (true) {
+
+                    System.out.println("¿Cuántas unidades quieres comprar de " + nombreCafe + "? ");
+                    String entradaCantidad = scanner.nextLine().trim();
+                    try {
+                        cantidad = Integer.parseInt(entradaCantidad);
+                        if (cantidad > 0){
+
+                            break;
+                        } else {
+                            System.out.println("La cantidad debe de ser mayor que 0.");
+
+                        }
+                    } catch (NumberFormatException e){
+                        System.out.println("Opción no válida. Debes introducir un número entero. ");
+                    }
+                }
+
+                if (cafe.getStock() >= cantidad) {
+
+                    for (int i = 0; i < cantidad; i++){
+
+                        cafesSeleccionados.add(cafe);
+                    }
+
+                    cafe.setStock(cafe.getStock() - cantidad);
+                    System.out.println("Añadidas " + cantidad + " unidades de " + cafe.getNombre());
+                    System.out.println("Stock restante: " + cafe.getStock() + " uds.");
+                } else if (cafe.getStock() > 0) {
+
+                    System.out.println("Solo hay " + cafe.getStock() + " unidades disponibles de " + cafe.getNombre() + ".");
+                    System.out.println("No se ha añadido nada. Intente de nuevo con una cantidad válida.");
+
+                }else {
+
+                    System.out.println("El café " + cafe.getNombre() + "está agotado.");
+                }
+
             }
 
-        } while (true);
+
+
+            System.out.println("¿Deseas añadir otro café? (s/n): ");
+            String respuesta = scanner.nextLine().trim().toLowerCase();
+            if (!respuesta.equals("s")){
+                break;
+            }
+        }
+
+        if (cafesSeleccionados.isEmpty()){
+            System.out.println("\nNo se ha seleccionado ningún café. La venta ha sido cancelada.");
+            return;
+        }
 
 
         String fechaActual = LocalDate.now().toString();
@@ -155,10 +265,10 @@ public class GestorVentas {
 
     /**
      * Muestra por consola todas las ventas registradas en el sistema.
-     *
+     * <p>
      * Recorre la lista de ventas y muestra los datos de cada una de ellas,
      * incluyendo cliente, fecha, cafés vendidos y total.
-     *
+     * <p>
      * Si no hay ventas registradas, se informa al usuario.
      */
     public void mostrarTodasLasVentas(){
@@ -277,20 +387,21 @@ public class GestorVentas {
     }
 
     /**
-     * Busca un café en el catálogo a partir de su variedad.
+     * Busca todos los cafés en el catálogo que coincidan con una variedad dada.
      * La comparación no distingue entre mayúsculas y minúsculas.
      *
      * @param variedad Variedad del café a buscar.
-     * @return El objeto Cafe si se encuentra; null si no existe.
+     * @return Lista de objetos Cafe que coinciden con la variedad; lista vacía si no se encuentra ninguno.
      */
 
-    private Cafe buscarCafePorVariedad(String variedad){
+    private ArrayList<Cafe> buscarCafePorVariedad(String variedad){
+        ArrayList<Cafe> resultado = new ArrayList<>();
         for (Cafe cafe:listaCafes){
             if(cafe.getVariedad().equalsIgnoreCase(variedad)){
-                return cafe;
+                resultado.add(cafe);
             }
         }
-        return null;
+        return resultado;
     }
 
 

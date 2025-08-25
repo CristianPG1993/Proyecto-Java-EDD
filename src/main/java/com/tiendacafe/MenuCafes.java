@@ -30,7 +30,7 @@ public class MenuCafes {
 
         Scanner scanner = new Scanner(System.in);
 
-        int opcion;
+        int opcion = 0;
 
         do {
 
@@ -40,26 +40,31 @@ public class MenuCafes {
             System.out.println("3. Buscar cafés por variedad");
             System.out.println("4. Volver al menú principal");
             System.out.println("Elige una opción(1 - 4): ");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (opcion){
-                case 1:
-                    gestorCafes.darAltaCafe();
-                    break;
-                case 2:
-                    gestorCafes.listarCafes();
-                    break;
-                case 3:
-                    gestorCafes.buscarCafePorVariedad();
-                    break;
-                case 4:
-                    System.out.println("Volviendo al menú principal....");
-                    break;
-                default:
-                    System.out.println("Opción no válida.Inténtalo de nuevo:");
+            try{
+                opcion = Integer.parseInt(scanner.nextLine());
 
-            }
+                switch (opcion) {
+                    case 1:
+                        GestorCafes.darAltaCafe();
+                        break;
+                    case 2:
+                        GestorCafes.listarCafes();
+                        break;
+                    case 3:
+                        GestorCafes.buscarCafePorVariedad();
+                        break;
+                    case 4:
+                        System.out.println("Volviendo al menú principal....");
+                        break;
+                    default:
+                        System.out.println("Opción no válida.Inténtalo de nuevo:");
+                }
+
+            }catch(NumberFormatException e){
+                    System.out.println("\nEntrada inválida. Debes introducir un número del 1 al 4.");
+                }
+
 
         }while(opcion != 4);
     }

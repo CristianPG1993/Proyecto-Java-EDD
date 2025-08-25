@@ -18,12 +18,12 @@ public class GestorClientes {
     private ArrayList<Cliente> listaClientes;
 
     /**
-     * Constructor que inicializa la lista de clientes vacía.
+     * Constructor que inicializa la lista de clientes.
      */
 
-    public GestorClientes(){
+    public GestorClientes(ArrayList<Cliente> gestorClientes){
 
-        this.listaClientes = new ArrayList<>();
+        this.listaClientes = gestorClientes;
 
     }
 
@@ -42,61 +42,71 @@ public class GestorClientes {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("\nIntroduce el DNI: ");
-        String dni = scanner.nextLine().toUpperCase();
+        String dni;
+        do {
+            System.out.println("\nIntroduce el DNI:");
+            dni = scanner.nextLine().toUpperCase().trim();
 
-
-        for (int i = 0; i < listaClientes.size(); i++) {
-
-            if (listaClientes.get(i).getDni().equals(dni)) {
-                System.out.println("\nEl DNI introducido ya está registrado.");
+            if (!esDniValido(dni)) {
+                System.out.println("\nEl formato del DNI no es válido. Debe tener 8 números seguidos de una letra.");
                 return false;
+            } else if (dniYaExiste(dni)) {
+                System.out.println("\nEl DNI introducido ya está registrado.");
+                dni = "";
             }
 
-        }
+        } while (dni.isEmpty() || !esDniValido(dni));
+
 
         System.out.println("\nDatos usuario nuevo: ");
 
+        String nombre;
+        do {
+            System.out.println("\nIntroduce nombre del cliente: ");
+            nombre = scanner.nextLine().toUpperCase().trim();
 
-        System.out.println("\nIntroduce nombre del cliente: ");
-        String nombre = scanner.nextLine().toUpperCase();
+            if(nombre.isEmpty() || !nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\\\s]+$")){
+                System.out.println("Nombre no válido. Solo letras y sin estar vacío.");
+            }
+        } while (nombre.isEmpty() || !nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\\\s]+$"));
 
-        while (nombre.isEmpty() || !nombre.matches("^[A-Za-zÁÉÍÓÚáéíóúÑñ\\\\s]+$")){
+        String telefono;
 
-            System.out.println("\nIntroduce un nombre correcto(El campo no puede" +
-                    " estar vacío ni tener letras o símbolos): ");
-            nombre = scanner.nextLine().toUpperCase();
+        do {
+            System.out.println("\nIntroduce un número de teléfono (9 cifras): ");
+            telefono = scanner.nextLine().trim();
+
+                if((telefono.isEmpty() || !telefono.matches("\\d{9}"))){
+
+                    System.out.println("\nIntroduce un número de teléfono válido (9 cifras): ");
+                }
+
+            }
+            while (telefono.isEmpty() || !telefono.matches("\\d{9}"));
+
+
+            String email;
+
+            do {
+                System.out.println("\nIntroduce un email: ");
+                email = scanner.nextLine().trim();
+                if(email.isEmpty() || !email.contains("@") || email.indexOf("@") == 0 ||
+                        email.endsWith("@") || !email.contains(".")){
+                    System.out.println("\nIntroduce un email válido (debe tener @ y .)");
+                }
+
+            }
+            while(email.isEmpty() || !email.contains("@") || email.indexOf("@") == 0 ||
+                    email.endsWith("@") || !email.contains("."));
+
+            Cliente nuevoCliente = new Cliente(nombre, dni, telefono, email);
+            listaClientes.add(nuevoCliente);
+
+            System.out.println("Cliente añadido correctamente.");
+
+            return true;
 
         }
-
-        System.out.println("\nIntroduce un número de teléfono: ");
-        String telefono = scanner.nextLine();
-
-        while (telefono.isEmpty() || !telefono.matches("\\d{9}")){
-
-            System.out.println("\nIntroduce un número de teléfono válido (9 cifras): ");
-            telefono = scanner.nextLine();
-
-        }
-
-
-        System.out.println("\nIntroduce un email: ");
-        String email = scanner.nextLine();
-
-        while(email.isEmpty() || !email.contains("@") || email.indexOf("@") == 0 ||
-                email.endsWith("@") || !email.contains(".")){
-
-            System.out.println("\nIntroduce un email válido ( debe tener @ y .): ");
-            email = scanner.nextLine();
-
-        }
-
-        Cliente nuevoCliente = new Cliente(nombre, dni, telefono, email);
-        listaClientes.add(nuevoCliente);
-
-        return true;
-
-    }
 
 
     /**
@@ -110,8 +120,18 @@ public class GestorClientes {
 
         Scanner scanner = new Scanner(System.in);
 
+        if(listaClientes.isEmpty()){
+            System.out.println("\nNo hay clientes registrados para eliminar.");
+            return false;
+        }
+
         System.out.println("\nIntroduce el DNI: ");
-        String dni = scanner.nextLine().toUpperCase();
+        String dni = scanner.nextLine().toUpperCase().trim();
+
+        if(!esDniValido(dni)){
+            System.out.println("\nEl formato del DNI no es válido. Debe tener 8 números seguidos de una letra.");
+            return false;
+        }
 
         for (int i = 0; i < listaClientes.size(); i++) {
 
@@ -142,6 +162,12 @@ public class GestorClientes {
 
         System.out.println("Introduce el DNI: ");
         String dni = scanner.nextLine().toUpperCase();
+
+        if (!esDniValido(dni)) {
+            System.out.println("\nEl formato del DNI no es válido. Debe tener 8 números seguidos de una letra.");
+            return false;
+        }
+
 
         Cliente clienteEncontrado = null;
 
@@ -229,8 +255,6 @@ public class GestorClientes {
             }
 
         }while(opcion != 4);
-
-        System.out.println("Menú de modificación cerrado correctamente. ");
         return true;
     }
 
@@ -246,6 +270,11 @@ public class GestorClientes {
 
         System.out.println("Introduce el DNI: ");
         String dni = scanner.nextLine().toUpperCase();
+
+        if(!esDniValido(dni)){
+            System.out.println("\nEl formato del DNI no es válido. Debe tener 8 números seguidos de una letra.");
+            return null;
+        }
 
         Cliente clienteEncontrado = null;
 
@@ -294,8 +323,32 @@ public class GestorClientes {
                 System.out.println("DNI: " + listaClientes.get(i).getDni());
                 System.out.println("Teléfono: " + listaClientes.get(i).getTelefono());
                 System.out.println("Email: " + listaClientes.get(i).getEmail());
+                System.out.println("------------------------------------------------");
+
             }
+            System.out.println("\nSe han listado " + listaClientes.size() + " clientes.");
         }
     }
+
+    /**
+     * Validar si un DNI tiene el formato correcto: 8 dígitos seguidos de una letra mayúscula válida.
+     *
+     * @param dni DNI a validar
+     * @return true si el formato es correcto, false en caso contrario
+     */
+    private boolean esDniValido(String dni) {
+        return dni.matches("^\\d{8}[A-HJ-NP-TV-Z]$");
+    }
+
+
+    private boolean dniYaExiste(String dni) {
+        for (Cliente c:listaClientes){
+            if(c.getDni().equals(dni)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

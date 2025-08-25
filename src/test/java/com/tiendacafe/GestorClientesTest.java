@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +26,7 @@ public class GestorClientesTest {
 
     @BeforeEach
     void setUp(){
-        gestor = new GestorClientes();
+        gestor = new GestorClientes(new ArrayList<>());
 
     }
 

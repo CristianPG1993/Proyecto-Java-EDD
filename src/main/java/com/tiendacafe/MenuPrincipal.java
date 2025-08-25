@@ -18,6 +18,7 @@ import java.util.Scanner;
 
 public class MenuPrincipal {
 
+
     /**
      * Muestra el menú principal de la aplicación en consola.
      *
@@ -31,15 +32,14 @@ public class MenuPrincipal {
      * El menú se repite en bucle hasta que el usuario selecciona la opción de salir.
      */
 
-    public static void mostrarMenuPrincipal(){
+    public static void mostrarMenuPrincipal(ArrayList<Cliente> listaClientes, ArrayList<Cafe> listaCafes){
 
         Scanner scanner = new Scanner(System.in);
 
         int opcion = 0;
 
-        ArrayList<Cliente> listaClientes = new ArrayList<>();
-        ArrayList<Cafe> listaCafes = new ArrayList<>();
-        GestorCafes gestorCafes = new GestorCafes();
+        GestorClientes gestorClientes = new GestorClientes(listaClientes);
+        GestorCafes gestorCafes = new GestorCafes(listaCafes);
         GestorVentas gestorVentas = new GestorVentas(listaClientes, listaCafes);
 
         do {
@@ -60,7 +60,7 @@ public class MenuPrincipal {
                 switch (opcion){
                     case 1:
                         System.out.println("Has elegido Gestión de clientes");
-                        MenuClientes.mostrarMenu(new GestorClientes());
+                        MenuClientes.mostrarMenu(gestorClientes);
                         break;
                     case 2:
                         System.out.println("Has elegido Gestión de cafés");

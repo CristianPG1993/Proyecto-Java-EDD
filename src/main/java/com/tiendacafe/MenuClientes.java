@@ -52,31 +52,35 @@ public class MenuClientes {
             System.out.println("\n6. Volver al menú principal");
 
             System.out.println("Introduce la opción que desea hacer(1 - 6): ");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
 
-            switch (opcion){
-                case 1:
-                    gestorClientes.agregarCliente();
-                    break;
-                case 2:
-                    gestorClientes.eliminarCliente();
-                    break;
-                case 3:
-                    gestorClientes.modificarCliente();
-                    break;
-                case 4:
-                    gestorClientes.buscarClientePorDni();
-                    break;
-                case 5:
-                    gestorClientes.listarClientes();
-                    break;
-                case 6:
-                    System.out.println("Volviendo al menú principal......");
-                    break;
-                default:
-                    System.out.println("Opción no válida.");
+            try {
+                opcion = Integer.parseInt(scanner.nextLine());
 
+                switch (opcion) {
+                    case 1:
+                        gestorClientes.agregarCliente();
+                        break;
+                    case 2:
+                        gestorClientes.eliminarCliente();
+                        break;
+                    case 3:
+                        gestorClientes.modificarCliente();
+                        break;
+                    case 4:
+                        gestorClientes.buscarClientePorDni();
+                        break;
+                    case 5:
+                        gestorClientes.listarClientes();
+                        break;
+                    case 6:
+                        System.out.println("Volviendo al menú principal......");
+                        break;
+                    default:
+                        System.out.println("Opción no válida.");
+
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Debe introducir un número del al 6.");
             }
         }while(opcion != 6);
 

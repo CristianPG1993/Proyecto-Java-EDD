@@ -14,9 +14,14 @@ import java.util.*;
 
 public class GestorCafes {
 
-    private static ArrayList<Cafe> listaCafes = new ArrayList<>();
+    private static  ArrayList<Cafe> listaCafes;
 
-    public static ArrayList<Cafe> getListaCafes() {
+    public GestorCafes(ArrayList<Cafe> listaCafes) {
+        this.listaCafes = listaCafes;
+    }
+
+
+    public  ArrayList<Cafe> getListaCafes() {
         return listaCafes;
     }
 
@@ -49,13 +54,39 @@ public class GestorCafes {
         System.out.println("\nOrigen del café: ");
         String origen = scanner.nextLine();
 
-        System.out.println("\nPrecio(250 grs): ");
-        double precio = scanner.nextDouble();
-        scanner.nextLine();
+        double precio = 0.0;
+        while (true){
 
-        System.out.println("\n¿Cuantas bolsas de café deseas añadir?");
-        int stock = scanner.nextInt();
-        scanner.nextLine();
+            System.out.println("\nPrecio (250 grs): ");
+            String entrada = scanner.nextLine().replace(',','.').trim();
+            try{
+                precio = Double.parseDouble(entrada);
+                if(precio < 0){
+                    System.out.println("El precio no puede ser negativo.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada no válida. Introduce un número válido (ej: 5.25");;
+            }
+        }
+
+        int stock = 0;
+        while (true){
+            System.out.println("\n¿Cuántas bolsas de café deseas añadir?: ");
+            String entrada = scanner.nextLine().trim();
+            try {
+                stock = Integer.parseInt(entrada);
+                if (stock < 0){
+                    System.out.println("El stock no puede ser negativo.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e ){
+
+                System.out.println("Entrada no válida. Introduce un número entero.");
+            }
+        }
 
 
         for(Cafe cafe : listaCafes){
