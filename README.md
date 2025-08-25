@@ -141,7 +141,7 @@ Desde IntelliJ IDEA:
 
 También puedes acceder al Javadoc directamente desde GitHub Pages:
 
-🔗 [Documentación técnica Javadoc online](https://cristianpg1993.github.io/Proyecto-JAVA-EDD/)
+🔗 [Documentación técnica Javadoc online](https://cristianpg1993.github.io/Proyecto-Java-EDD/)
 
 
 ---
